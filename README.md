@@ -1,5 +1,5 @@
-# email_hunter_python
-### An Email Hunter API client written in Python
+# hunter_python
+### A Hunter API client written in Python
 
 ## Installation
 Requirements:
@@ -9,30 +9,30 @@ Requirements:
 
 To install:
 ```
-pip install email-hunter-python
+pip install hunter-python
 ```
 
 To update:
 ```
-pip install --upgrade email-hunter-python
+pip install --upgrade hunter-python
 ```
 
 ## Usage
 
-email_hunter_python supports the three main methods of the [Email Hunter](https://emailhunter.co/api/docs) API:
-`search`, `generate`, and `exist`. There are two ways to use email_hunter_python:
+hunter_python supports the three main methods of the [Hunter](https://hunter.io/api/docs) API:
+`search`, `find` and `verify`. There are two ways to use hunter_python:
 
 * As a Python library
 * As a command line (CLI) tool.
 
-#### To use the email_hunter_python Python library:
+#### To use the hunter_python Python library:
 
 Import the client and instantiate it:
 ```python
-from email_hunter import EmailHunterClient
+from hunter import HunterClient
 ```
 ```
-client = EmailHunterClient('my_api_key')
+client = HunterClient('my_api_key')
 ```
 
 You can search:
@@ -40,9 +40,14 @@ You can search:
 client.search('google.com')
 ```
 
-A max of 100 results are returned, so use offset to paginate:
+By default 10 results are returned, so use offset to paginate:
 ```python
-client.search('google.com', offset=1)
+client.search('google.com', offset=10)
+```
+
+You can also limit the number of results:
+```python
+client.search('google.com', limit=5)
 ```
 
 You can also change type (personal or generic):
@@ -50,33 +55,34 @@ You can also change type (personal or generic):
 client.search('google.com', type_='personal')
 ```
 
-You can generate:
+You can find an email:
 ```python
-client.generate('google.com', 'Sergey', 'Brin')
+client.find('google.com', 'Sergey', 'Brin')
 ```
 
-And you can check if an email exists:
+And you can verify the deliverability of an email address:
 ```python
-client.exist('sergey@google.com')
+client.verify('sergey@google.com')
 ```
 
-#### To use email_hunter_python as a CLI tool:
+#### To use hunter_python as a CLI tool:
 
 ```
-email_hunter [command name] [api_key] [other args]
+hunter [command name] [api_key] [other args]
 ```
 
-The command name is `search`, `generate` or `exist`, the api_key is the API key associated with your Email Hunter
+The command name is `search`, `find` or `verify`, the api_key is the API key associated with your Hunter
 account
 
 The other arguments depend on the command you are using:
 ```
---domain       Required for search and generate commands
---offset       Optional, used with search command.
+--domain       Required for search and find commands
+--limit        Optional, used with search command
+--offset       Optional, used with search command
 --type         Optional, used with search command
---first_name   Required for generate command
---last_name    Required for generate command
---email        Required for exist command
+--first_name   Required for find command
+--last_name    Required for find command
+--email        Required for verify command
 --file         Path to a CSV to be used with the specified command.
                CSV must have a column for each argument used.
 ```
@@ -84,10 +90,10 @@ The other arguments depend on the command you are using:
 The file argument is useful when you want to make several requests of the same type. For example if you wanted to find
 the email addresses for several people at an organization you would do the following:
 ```
-email_hunter generate [api_key] --file people.csv > emails.csv
+hunter find [api_key] --file people.csv > emails.csv
 ```
-Where `people.csv` looks like:
 
+Where `people.csv` looks like:
 ```
 domain,first_name,last_name
 google.com,larry,page

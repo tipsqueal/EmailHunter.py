@@ -1,27 +1,27 @@
 import os
 from setuptools import setup, find_packages
 
-short_description = 'Client for Email Hunter REST API'
+short_description = 'Client for Hunter REST API'
 long_description = short_description
 
 if os.path.exists('README.txt'):
     long_description = open('README.txt').read()
 
 setup(
-    name='email_hunter_python',
-    version='1.1.0',
+    name='hunter_python',
+    version='2.0.0',
     description=short_description,
     long_description=long_description,
     license='MIT',
-    keywords='email hunter client rest api cli',
+    keywords='hunter client rest api cli',
     author='Alan Vezina',
     author_email='alan.vezina@gmail.com',
-    url='https://github.com/tipsqueal/email-hunter-python',
+    url='https://github.com/tipsqueal/hunter-python',
     packages=find_packages(),
     install_requires=['requests'],
     entry_points='''
     [console_scripts]
-    email_hunter=email_hunter.cli:main
+    hunter=hunter.cli:main
     ''',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
